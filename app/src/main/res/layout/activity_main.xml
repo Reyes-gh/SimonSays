@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="353dp"
         android:layout_height="442dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -89,6 +90,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="#51953A"
                 android:text="6" />
+
         </TableRow>
 
         <TableRow
@@ -119,9 +121,57 @@
                 android:layout_weight="1"
                 android:backgroundTint="#50A668"
                 android:text="9" />
+
         </TableRow>
 
     </TableLayout>
+
+    <Button
+        android:id="@+id/buttonStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#42671E"
+        android:text="Modo fácil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonStart4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-300dp"
+        android:backgroundTint="#624B7C"
+        android:text="Modo zen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonStart2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-100dp"
+        android:backgroundTint="#815509"
+        android:text="Modo normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonStart3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-200dp"
+        android:backgroundTint="#7C0B0B"
+        android:text="Modo frenzy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
