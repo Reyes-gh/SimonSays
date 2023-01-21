@@ -11,23 +11,52 @@ import android.os.Handler;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    /*
+    las variables numIndex delayTile y goal servirán para los métodos situados al final del código, los cuales compondrán
+    el funcionamiento del juego.
+     */
+
     int numIndex = 0;
     int delayTile = 0;
     int goal = 0;
+
+    /*
+    Instanciamos 3 mediaPlayer, uno para la canción de victoria, otro para la de derrota y el último para los sonidos al
+    pulsar. (Algunas veces MediaPlayer deja de funcionar con un error (1, -19).
+     */
+
     MediaPlayer mediaPlayer = new MediaPlayer();
     MediaPlayer derrota = new MediaPlayer();
     MediaPlayer victoria = new MediaPlayer();
 
+    /*
+    Instanciamos el logo para poder trabajar con el, al igual que los botones.
+     */
+    ImageView logo;
+
     Button buttonStart, buttonNormal, buttonFrenzy, buttonZen, b0,b1,b2,b3,b4,b5,b6,b7,b8,b9;
+    /*
+    Almacenaremos la dificultad en un entero para poder diferenciar los tipos de dificultad que existen y cambiar
+    las variables anteriores (numIndex, delayTile...) acorde a cada dificultad.
+     */
     int dificultad;
 
+    /*
+    Se crean 3 ArrayList, uno donde estarán todos los botones, que servirá para que el ArrayList botonesJuego pueda elegir alguno
+    aleatorio, el ArrayList botonesJuego irá almacenando los botones que tenemos que pulsar para conseguir un acierto, de esto se
+    encarga botonesPulsando, el cual es un ArrayList que va almacenando los botones que pulsamos y los compara con los botones que
+    debemos pulsar (botonesJuego) así podemos controlar los fallos y podemos limpiar los ArrayList para hacer lo que queramos.
+     */
     ArrayList<Button> listaBotones = new ArrayList<>();
     ArrayList<Button> listaBotonesPulsando = new ArrayList<>();
     ArrayList<Button> listaBotonesJuego = new ArrayList<>();
@@ -37,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*
+        nos aseguramos de establecer bien el logo con su id del xml, y nos aseguramos de que tanto las canciones de victoria como de
+        derrota se paren (por si ocurre algún error y no se paran de manera predeterminada).
+         */
+        logo = findViewById(R.id.imageView);
+        if (derrota.isPlaying()) derrota.stop();
+        if (victoria.isPlaying()) victoria.stop();
 
         buttonStart = findViewById(R.id.buttonStart);
         buttonNormal = findViewById(R.id.buttonStart2);
@@ -77,6 +114,10 @@ public class MainActivity extends AppCompatActivity {
         listaBotones.add(b9);
 
 
+        /*
+        Al crear la aplicación, se harán los 10 botones del juego invisibles (e inactivos) para que podamos ver únicamente
+        el menú.
+         */
         for (int i = 0; i<listaBotones.toArray().length; i++) {
             listaBotones.get(i).setVisibility(View.INVISIBLE);
         }
@@ -90,9 +131,13 @@ public class MainActivity extends AppCompatActivity {
          */
             dificultad = 1;
             delayTile = 500;
-            goal = 8;
+            goal = 7;
 
+            /*
+            Una vez pulsado el botón, se hará todo el menú invisible, y se verán solo las casillas de juego.
+             */
 
+            logo.setVisibility(View.INVISIBLE);
             buttonStart.setVisibility(View.INVISIBLE);
             buttonNormal.setVisibility(View.INVISIBLE);
             buttonFrenzy.setVisibility(View.INVISIBLE);
@@ -102,8 +147,16 @@ public class MainActivity extends AppCompatActivity {
                     listaBotones.get(i).setVisibility((View.VISIBLE));
                 }
 
+                /*
+                El método botones animados se encarga de animar una entrada para los botones.
+                 */
+                botonesanimados();
+
                 new Handler().postDelayed(() -> {
                     try {
+                        /*
+                        Y se llama al método generarPatrón.
+                         */
                         generarPatron();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -111,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
                 }, ((2000)));
 
         });
+
+        /*
+        Los siguientes botones realizan las mismas funciones pero cada uno lleva una dificultad distinta al método.
+         */
 
         buttonNormal.setOnClickListener(view -> {
         /*
@@ -120,13 +177,16 @@ public class MainActivity extends AppCompatActivity {
         4-Zen
          */
             dificultad = 2;
-            goal = 14;
+            goal = 10;
             delayTile = 250;
 
+            logo.setVisibility(View.INVISIBLE);
             buttonStart.setVisibility(View.INVISIBLE);
             buttonNormal.setVisibility(View.INVISIBLE);
             buttonFrenzy.setVisibility(View.INVISIBLE);
             buttonZen.setVisibility(View.INVISIBLE);
+
+            botonesanimados();
 
             for (int i = 0; i<listaBotones.toArray().length; i++) {
                 listaBotones.get(i).setVisibility((View.VISIBLE));
@@ -150,14 +210,16 @@ public class MainActivity extends AppCompatActivity {
         4-Zen
          */
             dificultad = 3;
-            goal = 20;
+            goal = 14;
             delayTile = 100;
 
-
+            logo.setVisibility(View.INVISIBLE);
             buttonStart.setVisibility(View.INVISIBLE);
             buttonNormal.setVisibility(View.INVISIBLE);
             buttonFrenzy.setVisibility(View.INVISIBLE);
             buttonZen.setVisibility(View.INVISIBLE);
+
+            botonesanimados();
 
             for (int i = 0; i<listaBotones.toArray().length; i++) {
                 listaBotones.get(i).setVisibility((View.VISIBLE));
@@ -181,14 +243,16 @@ public class MainActivity extends AppCompatActivity {
         4-Zen
          */
             dificultad = 4;
-            goal = -1;
+            goal = 999;
             delayTile = 320;
 
-
+            logo.setVisibility(View.INVISIBLE);
             buttonStart.setVisibility(View.INVISIBLE);
             buttonNormal.setVisibility(View.INVISIBLE);
             buttonFrenzy.setVisibility(View.INVISIBLE);
             buttonZen.setVisibility(View.INVISIBLE);
+
+            botonesanimados();
 
             for (int i = 0; i<listaBotones.toArray().length; i++) {
                 listaBotones.get(i).setVisibility((View.VISIBLE));
@@ -204,7 +268,21 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        /*
+        Cada botón al ser pulsado se añade al ArrayList y llama al método comprobar (véase método comprobar).
+         */
+
         b0.setOnClickListener(view -> {
+
+            mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.zero);
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
+
             listaBotonesPulsando.add(b0);
             try {
                 comprobar();
@@ -215,8 +293,14 @@ public class MainActivity extends AppCompatActivity {
 
         b1.setOnClickListener(view -> {
 
-             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.one);
+            mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.one);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b1);
             try {
@@ -230,6 +314,12 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.two);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b2);
             try {
@@ -243,6 +333,12 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.three);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b3);
             try {
@@ -256,6 +352,12 @@ public class MainActivity extends AppCompatActivity {
 
            mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.four);
            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b4);
             try {
@@ -269,6 +371,12 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.five);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b5);
             try {
@@ -282,6 +390,12 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.six);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b6);
             try {
@@ -293,8 +407,14 @@ public class MainActivity extends AppCompatActivity {
 
         b7.setOnClickListener(view -> {
 
-           mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.seven);
+            mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.seven);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b7);
             try {
@@ -306,8 +426,14 @@ public class MainActivity extends AppCompatActivity {
 
         b8.setOnClickListener(view -> {
 
-           mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.eight);
+            mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.eight);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b8);
             try {
@@ -321,6 +447,12 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.nine);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             listaBotonesPulsando.add(b9);
             try {
@@ -330,77 +462,146 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+    }
+
+    /*
+    Método que reproduce un sonido y anima los botones.
+     */
+    void botonesanimados() {
+
+        mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.letsgo);
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
+
         AnimatorSet animadorBoton = new AnimatorSet();
 
         ObjectAnimator trasladar = ObjectAnimator.ofFloat(b0, "translationX", -800f, 0f);
 
-        trasladar.setDuration(3980);
+        trasladar.setDuration(1980);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b1, "translationX", -800f, 0f);
 
-        trasladar.setDuration(5000);
+        trasladar.setDuration(2000);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b2, "translationX", -800f, 0f);
 
-        trasladar.setDuration(2500);
+        trasladar.setDuration(1500);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b3, "translationX", -800f, 0f);
 
-        trasladar.setDuration(2500);
+        trasladar.setDuration(1500);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b4, "translationX", -800f, 0f);
 
-        trasladar.setDuration(5000);
+        trasladar.setDuration(2000);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b5, "translationX", -800f, 0f);
 
-        trasladar.setDuration(3989);
+        trasladar.setDuration(1989);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b6, "translationX", -800f, 0f);
 
-        trasladar.setDuration(1999);
+        trasladar.setDuration(1200);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b7, "translationX", -800f, 0f);
 
-        trasladar.setDuration(4000);
+        trasladar.setDuration(2000);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b8, "translationX", -800f, 0f);
 
-        trasladar.setDuration(2300);
+        trasladar.setDuration(1300);
         animadorBoton.play(trasladar);
         animadorBoton.start();
 
         trasladar = ObjectAnimator.ofFloat(b9, "translationX", -800f, 0f);
 
-        trasladar.setDuration(5000);
+        trasladar.setDuration(3000);
         animadorBoton.play(trasladar);
         animadorBoton.start();
-
 
 
     }
 
     void comprobar() throws InterruptedException {
 
+        /*
+        Este alertDialog se asegura de que al pulsar un botón y el patrón no estar definido, salte un mensaje de aviso y
+        pare el código, en caso de no detener el código la aplicación crashearía.
+         */
+
+        if (listaBotonesJuego.toArray().length==0) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Hey hey, espera...");
+            derrota = MediaPlayer.create(MainActivity.this, R.raw.hisworld);
+            derrota.start();
+            builder.setMessage("¡Has pulsado los botones antes de tiempo, espera a generar un patrón!")
+                    .setPositiveButton("Reintentar", (dialog, id) -> {
+                        try {
+                            /*
+                            Limpia las variables del juego y genera un nuevo patrón.
+                             */
+                            listaBotonesJuego.clear();
+                            aciertos = 0;
+                            derrota.stop();
+                            generarPatron();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    });
+            builder.setNegativeButton("Salir", (dialog, id) -> {
+                derrota.stop();
+                recreate();
+            });
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+            return;
+        }
+
+        /*
+        Si detecta que has pulsado el botón correcto, llegará a este if
+         */
             if (listaBotonesPulsando.get(numIndex).getText()==listaBotonesJuego.get(numIndex).getText()) {
 
+                /*
+                Si al haber pulsado el botón correcto se detecta que has llegado al final del patrón, se sumará un acierto
+                y se reproducirá un sonido, además de volver a llamar al método generarPatrón().
+                 */
                 if (numIndex+1==listaBotonesJuego.toArray().length) {
+
+                    mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.guessring);
+                    mediaPlayer.start();
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+                            mediaPlayer.release();
+                        }
+                    });
 
                     aciertos++;
                     generarPatron();
@@ -409,16 +610,31 @@ public class MainActivity extends AppCompatActivity {
                     numIndex++;
                 }
 
+                /*
+                En caso de no pulsar la casilla correcta saltará este Diálogo de derrota con su respectiva música y menú.
+                 */
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Has perdido!");
+                builder.setTitle("¡Derrota!");
                 derrota = MediaPlayer.create(MainActivity.this, R.raw.hisworld);
                 derrota.start();
-                builder.setMessage("Derrota!")
-                        .setPositiveButton("Repetir", (dialog, id) -> {
-                           recreate();
-                           derrota.stop();
+                builder.setMessage("Inténtalo de nuevo ¡Seguro que a la próxima lo harás mejor!")
+                        .setPositiveButton("Reintentar", (dialog, id) -> {
+                            try {
+                                listaBotonesJuego.clear();
+                                aciertos = 0;
+                                derrota.stop();
+                                generarPatron();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
                         });
+                builder.setNegativeButton("Salir", (dialog, id) -> {
+
+                    derrota.stop();
+                    recreate();
+                });
                 AlertDialog dialog = builder.create();
 
                 dialog.show();
@@ -428,33 +644,77 @@ public class MainActivity extends AppCompatActivity {
 
     void generarPatron() throws InterruptedException {
 
-        if (aciertos==goal) {
+        /*
+        Si al generar patrón el if detecta que tenemos los suficientes aciertos saltará el mensaje y la música de victoria.
+         */
+
+        if (aciertos>=goal) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("¡Felicitaciones!");
-            builder.setMessage("Has ganado, Enhorabuena!")
-                    .setPositiveButton("Repetir", (dialog, id) -> recreate())
-                    .setNegativeButton("Salir", (dialog, id) -> {
+            victoria = MediaPlayer.create(MainActivity.this, R.raw.liveandlearn);
+            victoria.start();
 
+            mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.feelinggood);
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
+            builder.setTitle("¡Enhorabuena!");
+            builder.setMessage("Lo has hecho bastante bien, felicidades ¡Has ganado!")
+                    .setPositiveButton("Repetir", (dialog, id) -> {
+                        try {
+                            aciertos = 0;
+                            listaBotonesJuego.clear();
+                            generarPatron();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-
+                        victoria.stop();
+            });
+                    builder.setNegativeButton("Salir", (dialog, id) -> {
+                        recreate();
+                        victoria.stop();
                     });
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.ring2);
             mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    mediaPlayer.release();
+                }
+            });
 
             AlertDialog dialog = builder.create();
             dialog.show();
-
+            return;
         }
 
-        listaBotonesPulsando.clear();
+        /*
+        Al generar el patrón, limpiamos el array de los botones que hemos pulsado, para así tener que repetir el patrón y replicar
+        el nuevo (funcionamiento básico de Simón dice o Simon Says).
+         */
+
+            listaBotonesPulsando.clear();
             numIndex = 0;
+
+            /*
+            Se genera un int random para elegir un botón aleatorio del array de botones y añadirlo al del juego.
+             */
 
             Random randomInt = new Random();
             listaBotonesJuego.add(listaBotones.get((randomInt.nextInt(10))));
 
         int i = 0;
+
+        /*
+        Por cada botón nuevo que se añada se repetirá una animación con un delay (el cual cambia con la dificultad) mostrando el
+        patrón a seguir.
+         */
 
         while (i<listaBotonesJuego.toArray().length) {
             AnimatorSet animadorBoton = new AnimatorSet();
@@ -473,7 +733,7 @@ public class MainActivity extends AppCompatActivity {
                 animadorBoton.play(trasladar2);
                 animadorBoton.start();
 
-            }, (((long) i *delayTile)));
+            }, (((long) i * delayTile)));
         }
 
     }
