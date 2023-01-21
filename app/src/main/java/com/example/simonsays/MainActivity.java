@@ -1,20 +1,16 @@
 package com.example.simonsays;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -276,12 +272,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.zero);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b0);
             try {
@@ -295,12 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.one);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b1);
             try {
@@ -314,12 +300,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.two);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b2);
             try {
@@ -333,12 +314,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.three);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b3);
             try {
@@ -352,12 +328,7 @@ public class MainActivity extends AppCompatActivity {
 
            mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.four);
            mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b4);
             try {
@@ -371,12 +342,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.five);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b5);
             try {
@@ -390,12 +356,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.six);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b6);
             try {
@@ -409,12 +370,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.seven);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b7);
             try {
@@ -428,12 +384,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.eight);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b8);
             try {
@@ -447,12 +398,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.nine);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             listaBotonesPulsando.add(b9);
             try {
@@ -473,12 +419,7 @@ public class MainActivity extends AppCompatActivity {
 
         mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.letsgo);
         mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.release();
-            }
-        });
+        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
         AnimatorSet animadorBoton = new AnimatorSet();
 
@@ -596,12 +537,7 @@ public class MainActivity extends AppCompatActivity {
 
                     mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.guessring);
                     mediaPlayer.start();
-                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mediaPlayer) {
-                            mediaPlayer.release();
-                        }
-                    });
+                    mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
                     aciertos++;
                     generarPatron();
@@ -656,12 +592,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.feelinggood);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
             builder.setTitle("¡Enhorabuena!");
             builder.setMessage("Lo has hecho bastante bien, felicidades ¡Has ganado!")
                     .setPositiveButton("Repetir", (dialog, id) -> {
@@ -682,12 +613,7 @@ public class MainActivity extends AppCompatActivity {
 
             mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.ring2);
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                }
-            });
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 
             AlertDialog dialog = builder.create();
             dialog.show();
